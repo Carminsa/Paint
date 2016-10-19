@@ -1,0 +1,28 @@
+html, body {
+    width: 99.75%;
+    height: 100%;
+}
+
+#sketch {
+    border: 10px solid gray;
+    height: 870px;
+    width: 100%;
+    /*position: relative;*/
+}
+
+#tmp_canvas {
+    position: absolute;
+    left: 0px; right: 0;
+    bottom: 0; top: 0;
+    cursor: crosshair;
+}
+
+.nav-wrapper{
+    background-color: #5F9EA0;
+}
+
+.icons{
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
