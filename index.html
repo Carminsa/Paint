@@ -1,43 +1,32 @@
-
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Feu Paint</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="js/materialize.js">
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <script type="text/javascript" src="jquery.js"></script>
-    <script type="text/javascript" src="my_paint.js"></script>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>My Paint</title>
 </head>
+
 <body>
-<h1>Mon Mini Paint</h1>
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo right">Feu Paint</a>
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+            <li><i id="brush" data-type="brush" class="material-icons icons type">edit</i></li>
+            <li><i id="row" data-type="row" class="material-icons icons type">clear_all</i></li>
+        </ul>
+    </div>
+</nav>
 
-<canvas id="canvas" width="800" height="500"></canvas>
+<div id="sketch">
+    <canvas id="paint"></canvas>
+</div>
 
-<ul id="couleurs">
-    <li><a href="#" data-couleur="#000000" class="actif">Noir</a></li>
-    <li><a href="#" data-couleur="#ffffff">Blanc</a></li>
-    <li><a href="#" data-couleur="#ff0000">Rouge</a></li>
-    <li><a href="#" data-couleur="brown">Marron</a></li>
-    <li><a href="#" data-couleur="orange">Orange</a></li>
-    <li><a href="#" data-couleur="yellow">Jaune</a></li>
-    <li><a href="#" data-couleur="green">Vert</a></li>
-    <li><a href="#" data-couleur="cyan">Cyan</a></li>
-    <li><a href="#" data-couleur="blue">Bleu</a></li>
-    <li><a href="#" data-couleur="indigo">Indigo</a></li>
-    <li><a href="#" data-couleur="Violet">Violet</a></li>
-    <li><a href="#" data-couleur="pink">Rose</a></li>
-</ul>
-
-<form id="largeurs_pinceau">
-    <label for="largeur_pinceau">Largeur du pinceau :</label>
-    <input id="largeur_pinceau" type="range" min="2" max="50" value="5" />
-    <output id="output">5 pixels</output>
-
-    <br/>
-
-    <input type="reset" id="reset" value="Réinitialiser" />
-    <input type="button" id="save" value="Sauvergarder mon image" />
-</form>
 </body>
+
+<script src="jquery.js"></script>
+<script src="my_paint.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
 </html>

@@ -1,114 +1,80 @@
 $(document).ready(function() {
 
-    // Variables :
-    var color = "#000";
-    var painting = false;
-    var started = false;
-    var width_brush = 5;
-    var canvas = $("#canvas");
-    var cursorX, cursorY;
-    var restoreCanvasArray = [];
-    var restoreCanvasIndex = 0;
+    var clic = true;
+    var type = "brush";
 
-    var context = canvas[0].getContext('2d');
+    var brush_id = document.getElementById('brush');
+    var row = document.getElementById('row');
+    var tool = document.getElementsByClassName('type');
 
-    // Trait arrondi :
-    context.lineJoin = 'round';
-    context.lineCap = 'round';
+    var canvas = document.querySelector('#paint');
+    var ctx = canvas.getContext('2d');
 
-    // Click souris enfoncé sur le canvas, je dessine :
-    canvas.mousedown(function(e) {
-        painting = true;
+    var sketch = document.querySelector('#sketch');
+    var sketch_style = getComputedStyle(sketch);
+    canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+    canvas.height = parseInt(sketch_style.getPropertyValue('height'));
 
-        // Coordonnées de la souris :
-        cursorX = (e.pageX - this.offsetLeft);
-        cursorY = (e.pageY - this.offsetTop);
+    var mouse = {x: 0, y: 0};
+
+    canvas.addEventListener('mousemove', function(e) {
+        mouse.x = e.pageX - this.offsetLeft;
+        mouse.y = e.pageY - this.offsetTop;
+    }, false);
+
+    $(tool).click(function(){
+        type = $(this).data("type");
     });
 
-    // Relachement du Click sur tout le document, j'arrête de dessiner :
-    $(this).mouseup(function() {
-        painting = false;
-        started = false;
+    $(canvas).click(function(){
+        init_tool();
     });
 
-    // Mouvement de la souris sur le canvas :
-    canvas.mousemove(function(e) {
-        // Si je suis en train de dessiner (click souris enfoncé) :
-        if (painting) {
-            // Set Coordonnées de la souris :
-            cursorX = (e.pageX - this.offsetLeft) - 10; // 10 = décalage du curseur
-            cursorY = (e.pageY - this.offsetTop) - 10;
+    function init_tool (){
 
-            // Dessine une ligne :
-            drawLine();
-        }
-    });
+        switch(type){
 
-    // Fonction qui dessine une ligne :
-    function drawLine() {
-        // Si c'est le début, j'initialise
-        if (!started) {
-            // Je place mon curseur pour la première fois :
-            context.beginPath();
-            context.moveTo(cursorX, cursorY);
-            started = true;
-        }
-        // Sinon je dessine
-        else {
-            context.lineTo(cursorX, cursorY);
-            context.strokeStyle = color;
-            context.lineWidth = width_brush;
-            context.stroke();
+            case 'row':
+                draw_row();
+                break;
         }
     }
 
-    // Clear du Canvas :
-    function clear_canvas() {
-        context.clearRect(0,0, canvas.width(), canvas.height());
-    }
+    ctx.lineWidth = 5;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'blue';
 
-    // Pour chaque carré de couleur :
-    $("#couleurs a").each(function() {
-        // Je lui attribut une couleur de fond :
-        $(this).css("background", $(this).attr("data-couleur"));
-
-        // Et au click :
-        $(this).click(function() {
-            // Je change la couleur du pinceau :
-            color = $(this).attr("data-couleur");
-
-            // Et les classes CSS :
-            $("#couleurs a").removeAttr("class", "");
-            $(this).attr("class", "actif");
-
-            return false;
-        });
-    });
-
-    // Largeur du pinceau :
-    $("#largeurs_pinceau input").change(function() {
-        if (!isNaN($(this).val())) {
-            width_brush = $(this).val();
-            $("#output").html($(this).val() + " pixels");
+    canvas.addEventListener('mousedown', function() {
+        if (type === "brush") {
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            canvas.addEventListener('mousemove', onPaint, false);
         }
     });
 
-    // Bouton Reset :
-    $("#reset").click(function() {
-        // Clear canvas :
-        clear_canvas();
+    canvas.addEventListener('mouseup', function () {
+        if (type === "brush"){
+            canvas.removeEventListener('mousemove', onPaint, false);
+        }
+    }, false);
 
-        // Valeurs par défaut :
-        $("#largeur_pinceau").attr("value", 5);
-        width_brush = 5;
-        $("#output").html("5 pixels");
+    var onPaint = function () {
 
-    });
-
-    // Bouton Save :
-    $("#save").click(function() {
-        var canvas_tmp = document.getElementById("canvas");	// Ca merde en pernant le selecteur jQuery
-        window.location = canvas_tmp.toDataURL("image/png");
-    });
-
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+    };
+    
+    function draw_row() {
+        if (clic) {
+            clic = false;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+        } else {
+            clic = true;
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+            ctx.closePath();
+        }
+    }
 });
