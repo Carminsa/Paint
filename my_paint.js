@@ -27,57 +27,71 @@ $(document).ready(function() {
     });
 
     function draw_brush(){
-
+        console.log(1);
+        $(canvas).off( "click", "**" );
+        $(canvas).off();
         canvas.removeEventListener('click', lineFunction);
-        console.log("ha bon");
+        console.log(type);
+
         ctx.lineWidth = 5;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
         ctx.strokeStyle = 'blue';
+        console.log(2);
+
 
         canvas.addEventListener('mousedown', function (e) {
+            console.log(3);
+
             ctx.beginPath();
             ctx.moveTo(mouse.x, mouse.y);
+            console.log(4);
 
             canvas.addEventListener('mousemove', onPaint, false);
         }, false);
 
         canvas.addEventListener('mouseup', function () {
+            console.log(5);
             canvas.removeEventListener('mousemove', onPaint, false);
         }, false);
 
         var onPaint = function () {
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
+            console.log(6);
+            if (type === "brush") {
+                ctx.lineTo(mouse.x, mouse.y);
+                ctx.stroke();
+            }
         };
-        console.log("mojo rising");
     }
 
     function init_tool(){
-
-        canvas.removeEventListener('click', draw_brush);
+        // canvas.removeEventListener('click', draw_brush);
         switch(type){
-            case "brush" :  
-                draw_brush();
-                break;
-
-            case 'row' :
+            case 'row':
                 line();
                 break;
         }
     }
 
-    function lineFunction(e) {
-        console.log('line function activated');
+    function lineFunction() {
+        console.log(type);
+        $(canvas).unbind("click");
+        $(canvas).off();
+        $(canvas).off( "click", "**" );
+        ctx.lineWidth = 1;
+        ctx.lineJoin = 'round';
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = 'RED';
 
         if (clic) {
-            console.log("premier click");
+            $(canvas).off();
+            console.log('air');
             clic = false;
             ctx.beginPath();
             ctx.moveTo(mouse.x, mouse.y);
         } else {
-            console.log("deuxieme click");
-
+            $(canvas).off();
+            console.log('la mort');
             clic = true;
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
@@ -86,7 +100,7 @@ $(document).ready(function() {
     }
 
     function line(e) {
-        remove_event();
+        // remove_event();
         canvas.addEventListener('click', lineFunction);
         // e.preventDefault();
     }
