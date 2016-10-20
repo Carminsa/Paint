@@ -1,114 +1,114 @@
 $(document).ready(function() {
 
-    var clic = true;
-    var type = "brush";
+    // Variables :
+    var color = "#000";
+    var painting = false;
+    var started = false;
+    var width_brush = 5;
+    var canvas = $("#canvas");
+    var cursorX, cursorY;
+    var restoreCanvasArray = [];
+    var restoreCanvasIndex = 0;
 
-    var brush_id = document.getElementById('brush');
-    var row = document.getElementById('row');
-    var tool = document.getElementsByClassName('type');
+    var context = canvas[0].getContext('2d');
 
-    var canvas = document.querySelector('#paint');
-    var ctx = canvas.getContext('2d');
+    // Trait arrondi :
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
 
-    var sketch = document.querySelector('#sketch');
-    var sketch_style = getComputedStyle(sketch);
-    canvas.width = parseInt(sketch_style.getPropertyValue('width'));
-    canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+    // Click souris enfoncé sur le canvas, je dessine :
+    canvas.mousedown(function(e) {
+        painting = true;
 
-    var mouse = {x: 0, y: 0};
-
-    canvas.addEventListener('mousemove', function(e) {
-        mouse.x = e.pageX - this.offsetLeft;
-        mouse.y = e.pageY - this.offsetTop;
-    }, false);
-
-    $(tool).click(function(){
-        type = $(this).data("type");
+        // Coordonnées de la souris :
+        cursorX = (e.pageX - this.offsetLeft);
+        cursorY = (e.pageY - this.offsetTop);
     });
 
-    function draw_brush(){
-        console.log(1);
-        $(canvas).off( "click", "**" );
-        $(canvas).off();
-        canvas.removeEventListener('click', lineFunction);
-        console.log(type);
+    // Relachement du Click sur tout le document, j'arrête de dessiner :
+    $(this).mouseup(function() {
+        painting = false;
+        started = false;
+    });
 
-        ctx.lineWidth = 5;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = 'blue';
-        console.log(2);
+    // Mouvement de la souris sur le canvas :
+    canvas.mousemove(function(e) {
+        // Si je suis en train de dessiner (click souris enfoncé) :
+        if (painting) {
+            // Set Coordonnées de la souris :
+            cursorX = (e.pageX - this.offsetLeft) - 10; // 10 = décalage du curseur
+            cursorY = (e.pageY - this.offsetTop) - 10;
 
+            // Dessine une ligne :
+            drawLine();
+        }
+    });
 
-        canvas.addEventListener('mousedown', function (e) {
-            console.log(3);
-
-            ctx.beginPath();
-            ctx.moveTo(mouse.x, mouse.y);
-            console.log(4);
-
-            canvas.addEventListener('mousemove', onPaint, false);
-        }, false);
-
-        canvas.addEventListener('mouseup', function () {
-            console.log(5);
-            canvas.removeEventListener('mousemove', onPaint, false);
-        }, false);
-
-        var onPaint = function () {
-            console.log(6);
-            if (type === "brush") {
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-        };
-    }
-
-    function init_tool(){
-        // canvas.removeEventListener('click', draw_brush);
-        switch(type){
-            case 'row':
-                line();
-                break;
+    // Fonction qui dessine une ligne :
+    function drawLine() {
+        // Si c'est le début, j'initialise
+        if (!started) {
+            // Je place mon curseur pour la première fois :
+            context.beginPath();
+            context.moveTo(cursorX, cursorY);
+            started = true;
+        }
+        // Sinon je dessine
+        else {
+            context.lineTo(cursorX, cursorY);
+            context.strokeStyle = color;
+            context.lineWidth = width_brush;
+            context.stroke();
         }
     }
 
-    function lineFunction() {
-        console.log(type);
-        $(canvas).unbind("click");
-        $(canvas).off();
-        $(canvas).off( "click", "**" );
-        ctx.lineWidth = 1;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.strokeStyle = 'RED';
+    // Clear du Canvas :
+    function clear_canvas() {
+        context.clearRect(0,0, canvas.width(), canvas.height());
+    }
 
-        if (clic) {
-            $(canvas).off();
-            console.log('air');
-            clic = false;
-            ctx.beginPath();
-            ctx.moveTo(mouse.x, mouse.y);
-        } else {
-            $(canvas).off();
-            console.log('la mort');
-            clic = true;
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-            ctx.closePath();
+    // Pour chaque carré de couleur :
+    $("#couleurs a").each(function() {
+        // Je lui attribut une couleur de fond :
+        $(this).css("background", $(this).attr("data-couleur"));
+
+        // Et au click :
+        $(this).click(function() {
+            // Je change la couleur du pinceau :
+            color = $(this).attr("data-couleur");
+
+            // Et les classes CSS :
+            $("#couleurs a").removeAttr("class", "");
+            $(this).attr("class", "actif");
+
+            return false;
+        });
+    });
+
+    // Largeur du pinceau :
+    $("#largeurs_pinceau input").change(function() {
+        if (!isNaN($(this).val())) {
+            width_brush = $(this).val();
+            $("#output").html($(this).val() + " pixels");
         }
-    }
+    });
 
-    function line(e) {
-        // remove_event();
-        canvas.addEventListener('click', lineFunction);
-        // e.preventDefault();
-    }
+    // Bouton Reset :
+    $("#reset").click(function() {
+        // Clear canvas :
+        clear_canvas();
 
-    row.addEventListener('click', init_tool);
-    brush_id.addEventListener('click', draw_brush);
+        // Valeurs par défaut :
+        $("#largeur_pinceau").attr("value", 5);
+        width_brush = 5;
+        $("#output").html("5 pixels");
 
-    remove_event = function (){
-        canvas.removeEventListener('click', lineFunction);
-    };
+    });
+
+    // Bouton Save :
+    $("#save").click(function() {
+        var canvas_tmp = document.getElementById("canvas");	// Ca merde en pernant le selecteur jQuery
+        window.location = canvas_tmp.toDataURL("image/png");
+    });
+
 });
