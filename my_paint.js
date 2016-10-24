@@ -6,6 +6,7 @@ $(document).ready(function() {
     // var brush_id = document.getElementById('brush');
     // var row = document.getElementById('row');
     var tool = document.getElementsByClassName('type');
+    var color = document.getElementById('color');
 
     var canvas = document.querySelector('#paint');
     var ctx = canvas.getContext('2d');
@@ -53,7 +54,14 @@ $(document).ready(function() {
     ctx.lineWidth = 5;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    ctx.strokeStyle = 'blue';
+    document.getElementById("color").value = "#00000";
+
+    $(color).change(function(e){
+        var new_color = document.getElementById("color").value = color.value;
+        ctx.strokeStyle = new_color;
+
+    });
+
 
     canvas.addEventListener('mousedown', function() {
         if (type === "brush") {
@@ -117,10 +125,8 @@ $(document).ready(function() {
             axe_y = mouse.y;
         }
         else {
-            console.log(mouse.x);
-            console.log(axe_x);
-            var x = parseInt(mouse.x) - parseInt(axe_x);
-            var y = parseInt(mouse.y) - parseInt(axe_y);
+            var x = parseInt(axe_x) - parseInt(mouse.x);
+            var y = parseInt(axe_y) - parseInt(mouse.y);
             var rayon = parseInt(x) + parseInt(y);
             var racine = Math.abs(rayon);
 
