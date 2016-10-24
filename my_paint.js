@@ -51,6 +51,7 @@ $(document).ready(function() {
         }
     }
 
+    $(".dropdown-button").dropdown();
 
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
@@ -61,7 +62,7 @@ $(document).ready(function() {
         ctx.strokeStyle = new_color;
     });
 
-    var width_brush = 5;
+    var width_brush = 2;
     $("#largeurs_pinceau input").change(function() {
         if (!isNaN($(this).val())) {
             width_brush = $(this).val();

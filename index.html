@@ -12,7 +12,6 @@
 <body>
 <nav>
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo right">Feu Paint</a>
         <ul id="nav-mobile" class="left hide-on-med-and-down">
             <li><i id="brush" data-type="brush" class="material-icons icons type">edit</i></li>
             <li><i id="row" data-type="row" class="material-icons icons type">clear_all</i></li>
@@ -20,29 +19,41 @@
             <li><i id="cercle" data-type="cercle" class="material-icons icons type">track_changes</i></li>
             <li><i id="erase" data-type="cercle" class="material-icons icons type">delete</i></li>
             <input id="color" data-type="color" type="color">
-
+        </ul>
+        <ul id="test" class="right hide-on-med-and-down">
+            <li><a class="dropdown-button" href="#!" data-activates="dropdown1">Options<i class="material-icons right">arrow_drop_down</i></a></li>
         </ul>
     </div>
 </nav>
+<ul id="dropdown1" class="dropdown-content">
+    <li><form id="largeurs_pinceau">
+        <label for="largeur_pinceau">Largeur du pinceau :</label>
+        <input id="largeur_pinceau" type="range" min="2" max="50" value="5">
+        <output id="output">2 pixels</output>
+    </form>
+        </div></li>
+</ul>
 
 <div id="sketch">
     <canvas id="paint"></canvas>
 </div>
-<div id="range">
-    <form id="largeurs_pinceau">
-        <label for="largeur_pinceau">Largeur du pinceau :</label>
-        <input id="largeur_pinceau" type="range" min="2" max="50" value="5">
-        <output id="output">2 pixels</output>
 
-        <br>
+<!--<div id="range">-->
+<!--<form id="largeurs_pinceau">-->
+    <!--<label for="largeur_pinceau">Largeur du pinceau :</label>-->
+    <!--<input id="largeur_pinceau" type="range" min="2" max="50" value="5">-->
+    <!--<output id="output">2 pixels</output>-->
 
-        <input type="reset" id="reset" value="Réinitialiser">
-        <input type="button" id="save" value="Sauvergarder mon image">
-    </form>
-</div>
+    <!--<br>-->
+
+    <!--<input type="reset" id="reset" value="Réinitialiser">-->
+    <!--<input type="button" id="save" value="Sauvergarder mon image">-->
+<!--</form>-->
+<!--</div>-->
+
 </body>
 
 <script src="jquery.js"></script>
 <script src="my_paint.js"></script>
-<!--<script type="text/javascript" src="js/materialize.min.js"></script>-->
+<script type="text/javascript" src="js/materialize.min.js"></script>
 </html>

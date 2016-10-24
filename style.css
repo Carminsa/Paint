@@ -28,5 +28,17 @@ html, body {
 }
 
 #range{
-    width: 281px;
+    width: 250px;
+}
+#dropdown1{
+    height:200px;
+}
+
+#largeur_pinceau{
+    margin-top: 20px;
+    width: 108px;
+}
+
+#largeurs_pinceau{
+    margin-top: 20px;
 }
