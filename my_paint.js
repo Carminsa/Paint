@@ -51,15 +51,23 @@ $(document).ready(function() {
         }
     }
 
-    ctx.lineWidth = 5;
+
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
-    document.getElementById("color").value = "#00000";
 
-    $(color).change(function(e){
+    document.getElementById("color").value = "#00000";
+    $(color).change(function(){
         var new_color = document.getElementById("color").value = color.value;
         ctx.strokeStyle = new_color;
+    });
 
+    var width_brush = 5;
+    $("#largeurs_pinceau input").change(function() {
+        if (!isNaN($(this).val())) {
+            width_brush = $(this).val();
+            ctx.lineWidth = width_brush;
+            $("#output").html($(this).val() + " pixels");
+        }
     });
 
 

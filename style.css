@@ -5,7 +5,7 @@ html, body {
 
 #sketch {
     border: 10px solid gray;
-    height: 870px;
+    height: 770px;
     width: 100%;
     /*position: relative;*/
 }
@@ -25,4 +25,8 @@ html, body {
     margin-left: 10px;
     margin-right: 10px;
     cursor: pointer;
+}
+
+#range{
+    width: 281px;
 }

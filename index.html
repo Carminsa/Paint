@@ -20,6 +20,7 @@
             <li><i id="cercle" data-type="cercle" class="material-icons icons type">track_changes</i></li>
             <li><i id="erase" data-type="cercle" class="material-icons icons type">delete</i></li>
             <input id="color" data-type="color" type="color">
+
         </ul>
     </div>
 </nav>
@@ -27,7 +28,18 @@
 <div id="sketch">
     <canvas id="paint"></canvas>
 </div>
+<div id="range">
+    <form id="largeurs_pinceau">
+        <label for="largeur_pinceau">Largeur du pinceau :</label>
+        <input id="largeur_pinceau" type="range" min="2" max="50" value="5">
+        <output id="output">2 pixels</output>
 
+        <br>
+
+        <input type="reset" id="reset" value="Réinitialiser">
+        <input type="button" id="save" value="Sauvergarder mon image">
+    </form>
+</div>
 </body>
 
 <script src="jquery.js"></script>
