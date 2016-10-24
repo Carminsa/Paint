@@ -15,8 +15,6 @@ $(document).ready(function() {
     canvas.width = parseInt(sketch_style.getPropertyValue('width'));
     canvas.height = parseInt(sketch_style.getPropertyValue('height'));
 
-    var x1;
-    var y1;
 
     var mouse = {x: 0, y: 0};
 
@@ -44,6 +42,10 @@ $(document).ready(function() {
 
             case 'rectangle' :
                 draw_retangle();
+                break;
+
+            case 'cercle' :
+                draw_cercle();
                 break;
         }
     }
@@ -86,6 +88,8 @@ $(document).ready(function() {
         }
     }
 
+    var x1;
+    var y1;
     function draw_retangle() {
 
         if (clic) {
@@ -100,6 +104,30 @@ $(document).ready(function() {
             ctx.rect(x1, y1, width, height);
             ctx.stroke();
             ctx.closePath();
+        }
+    }
+
+    var axe_x;
+    var axe_y;
+
+    function draw_cercle(){
+        if(clic){
+            clic = false;
+            axe_x = mouse.x;
+            axe_y = mouse.y;
+        }
+        else {
+            console.log(mouse.x);
+            console.log(axe_x);
+            var x = parseInt(mouse.x) - parseInt(axe_x);
+            var y = parseInt(mouse.y) - parseInt(axe_y);
+            var rayon = parseInt(x) + parseInt(y);
+            var racine = Math.abs(rayon);
+
+            ctx.beginPath();
+            ctx.arc(mouse.x, mouse.y, racine , 0, 2 * Math.PI, false);
+            ctx.stroke();
+            clic = true;
         }
     }
 });
