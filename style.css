@@ -31,7 +31,8 @@ html, body {
     width: 250px;
 }
 #dropdown1{
-    height:200px;
+    height:150px;
+    width:200px !important;
 }
 
 #largeur_pinceau{

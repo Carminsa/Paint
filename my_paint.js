@@ -1,7 +1,9 @@
 $(document).ready(function() {
 
+    var checkbox = false;
     var clic = true;
     var type = "brush";
+    var new_color;
 
     // var brush_id = document.getElementById('brush');
     // var row = document.getElementById('row');
@@ -57,7 +59,7 @@ $(document).ready(function() {
 
     document.getElementById("color").value = "#00000";
     $(color).change(function(){
-        var new_color = document.getElementById("color").value = color.value;
+        new_color = document.getElementById("color").value = color.value;
         ctx.strokeStyle = new_color;
     });
 
@@ -68,6 +70,12 @@ $(document).ready(function() {
             ctx.lineWidth = width_brush;
             $("#output").html($(this).val() + " pixels");
         }
+    });
+
+    $('#mycheckbox').change(function(){
+        checkbox = document.getElementById('mycheckbox');
+        // console.log(checkbox.checked);
+        // return checkbox;
     });
 
     canvas.addEventListener('mousedown', function() {
@@ -105,6 +113,7 @@ $(document).ready(function() {
 
     var x1;
     var y1;
+
     function draw_retangle() {
 
         if (clic) {
@@ -117,8 +126,16 @@ $(document).ready(function() {
             var height = mouse.y - y1;
             ctx.beginPath();
             ctx.rect(x1, y1, width, height);
-            ctx.stroke();
-            ctx.closePath();
+            if (checkbox.checked == true)
+            {
+                ctx.fillStyle = new_color;
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath();
+            }else {
+                ctx.stroke();
+                ctx.closePath();
+            }
         }
     }
 
@@ -132,16 +149,23 @@ $(document).ready(function() {
             axe_y = mouse.y;
         }
         else {
-            var x = parseInt(axe_x) - parseInt(mouse.x);
-            var y = parseInt(axe_y) - parseInt(mouse.y);
-            var racine = Math.sqrt( (mouse.x -= axe_x) * mouse.x + (mouse.y -= axe_y) * mouse.y );
+            // var x = parseInt(axe_x) - parseInt(mouse.x);
+            // var y = parseInt(axe_y) - parseInt(mouse.y);
             // var rayon = parseInt(x) + parseInt(y);
             // var racine = Math.abs(rayon);
-
+            var racine = Math.sqrt( (mouse.x -= axe_x) * mouse.x + (mouse.y -= axe_y) * mouse.y );
             ctx.beginPath();
             ctx.arc(axe_x, axe_y, racine , 0, 2 * Math.PI, false);
-            ctx.stroke();
-            clic = true;
+            if (checkbox.checked == true)
+            {
+                ctx.fillStyle = new_color;
+                ctx.fill();
+                ctx.stroke();
+                clic = true;
+            }else {
+                ctx.stroke();
+                clic = true;
+            }
         }
     }
 
