@@ -16,7 +16,6 @@ $(document).ready(function() {
     canvas.width = parseInt(sketch_style.getPropertyValue('width'));
     canvas.height = parseInt(sketch_style.getPropertyValue('height'));
 
-
     var mouse = {x: 0, y: 0};
 
     canvas.addEventListener('mousemove', function(e) {
@@ -70,7 +69,6 @@ $(document).ready(function() {
             $("#output").html($(this).val() + " pixels");
         }
     });
-
 
     canvas.addEventListener('mousedown', function() {
         if (type === "brush") {
@@ -136,13 +134,42 @@ $(document).ready(function() {
         else {
             var x = parseInt(axe_x) - parseInt(mouse.x);
             var y = parseInt(axe_y) - parseInt(mouse.y);
-            var rayon = parseInt(x) + parseInt(y);
-            var racine = Math.abs(rayon);
+            var racine = Math.sqrt( (mouse.x -= axe_x) * mouse.x + (mouse.y -= axe_y) * mouse.y );
+            // var rayon = parseInt(x) + parseInt(y);
+            // var racine = Math.abs(rayon);
 
             ctx.beginPath();
-            ctx.arc(mouse.x, mouse.y, racine , 0, 2 * Math.PI, false);
+            ctx.arc(axe_x, axe_y, racine , 0, 2 * Math.PI, false);
             ctx.stroke();
             clic = true;
         }
     }
+
+    $("#reset").click(function() {
+        // Clear canvas :
+        clear_canvas();
+
+        // Valeurs par défaut :
+        $("#largeur_pinceau").attr("value", 5);
+        width_brush = 5;
+        $("#output").html("5 pixels");
+
+    });
+
+    function clear_canvas() {
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+    }
+
+    var button = document.getElementById('btn-download');
+    button.addEventListener('click', function (e) {
+        var dataURL = canvas.toDataURL('image/png');
+        button.href = dataURL;
+    });
+
+    // $('#save').click(function(){
+    //     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+    //
+    //
+    //     window.location.href=image
+    // });
 });
