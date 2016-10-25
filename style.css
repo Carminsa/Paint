@@ -43,3 +43,8 @@ html, body {
 #largeurs_pinceau{
     margin-top: 20px;
 }
+
+#reset{
+    font-size: 15px;
+    /*height: 40px !important;*/
+}

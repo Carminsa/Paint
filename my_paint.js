@@ -49,6 +49,10 @@ $(document).ready(function() {
             case 'cercle' :
                 draw_cercle();
                 break;
+
+            // case 'erase' :
+            //     eraser();
+            //     break;
         }
     }
 
@@ -74,12 +78,10 @@ $(document).ready(function() {
 
     $('#mycheckbox').change(function(){
         checkbox = document.getElementById('mycheckbox');
-        // console.log(checkbox.checked);
-        // return checkbox;
     });
 
     canvas.addEventListener('mousedown', function() {
-        if (type === "brush") {
+        if (type === "brush" || type === "erase") {
             ctx.beginPath();
             ctx.moveTo(mouse.x, mouse.y);
             canvas.addEventListener('mousemove', onPaint, false);
@@ -87,18 +89,28 @@ $(document).ready(function() {
     });
 
     canvas.addEventListener('mouseup', function () {
-        if (type === "brush"){
+        if (type === "brush"  || type === "erase"){
             canvas.removeEventListener('mousemove', onPaint, false);
         }
     }, false);
 
     var onPaint = function () {
+        if (type === "brush") {
+            console.log(ctx.globalCompositeOperation);
+            ctx.globalCompositeOperation = "source-over";
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
 
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.stroke();
+        }else if (type === "erase") {
+            console.log(ctx.globalCompositeOperation);
+            ctx.globalCompositeOperation = "destination-out";
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+        }
     };
 
     function draw_row() {
+        ctx.globalCompositeOperation = "source-over";
         if (clic) {
             clic = false;
             ctx.beginPath();
@@ -115,7 +127,7 @@ $(document).ready(function() {
     var y1;
 
     function draw_retangle() {
-
+        ctx.globalCompositeOperation = "source-over";
         if (clic) {
             clic = false;
             x1 =   mouse.x;
@@ -126,7 +138,7 @@ $(document).ready(function() {
             var height = mouse.y - y1;
             ctx.beginPath();
             ctx.rect(x1, y1, width, height);
-            if (checkbox.checked == true)
+            if (checkbox.checked === true)
             {
                 ctx.fillStyle = new_color;
                 ctx.fill();
@@ -143,6 +155,7 @@ $(document).ready(function() {
     var axe_y;
 
     function draw_cercle(){
+        ctx.globalCompositeOperation = "source-over";
         if(clic){
             clic = false;
             axe_x = mouse.x;
@@ -156,7 +169,7 @@ $(document).ready(function() {
             var racine = Math.sqrt( (mouse.x -= axe_x) * mouse.x + (mouse.y -= axe_y) * mouse.y );
             ctx.beginPath();
             ctx.arc(axe_x, axe_y, racine , 0, 2 * Math.PI, false);
-            if (checkbox.checked == true)
+            if (checkbox.checked === true)
             {
                 ctx.fillStyle = new_color;
                 ctx.fill();
@@ -168,7 +181,7 @@ $(document).ready(function() {
             }
         }
     }
-
+    
     $("#reset").click(function() {
         // Clear canvas :
         clear_canvas();
