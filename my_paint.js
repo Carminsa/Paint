@@ -18,6 +18,8 @@ $(document).ready(function() {
     canvas.width = parseInt(sketch_style.getPropertyValue('width'));
     canvas.height = parseInt(sketch_style.getPropertyValue('height'));
 
+
+
     var mouse = {x: 0, y: 0};
 
     canvas.addEventListener('mousemove', function(e) {
@@ -96,13 +98,11 @@ $(document).ready(function() {
 
     var onPaint = function () {
         if (type === "brush") {
-            console.log(ctx.globalCompositeOperation);
             ctx.globalCompositeOperation = "source-over";
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
 
         }else if (type === "erase") {
-            console.log(ctx.globalCompositeOperation);
             ctx.globalCompositeOperation = "destination-out";
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
@@ -181,7 +181,7 @@ $(document).ready(function() {
             }
         }
     }
-    
+
     $("#reset").click(function() {
         // Clear canvas :
         clear_canvas();
@@ -209,4 +209,28 @@ $(document).ready(function() {
     //
     //     window.location.href=image
     // });
+
+
+    var imageLoader = document.getElementById('imageLoader');
+    imageLoader.addEventListener('change', handleImage, false);
+
+
+    function handleImage(e){
+        var reader = new FileReader();
+        reader.onload = function(event){
+            var img = new Image();
+            var dHeight = canvas.height ;
+            img.onload = function(){
+                img.width = canvas.width;
+                img.height= canvas.height;
+                ctx.drawImage(img,0,0, img.width, dHeight );
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+
+
+
 });
