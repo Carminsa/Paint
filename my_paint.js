@@ -4,6 +4,7 @@ $(document).ready(function() {
     var clic = true;
     var type = "brush";
     var new_color;
+    var symetric = false;
 
     // var brush_id = document.getElementById('brush');
     // var row = document.getElementById('row');
@@ -12,13 +13,12 @@ $(document).ready(function() {
 
     var canvas = document.querySelector('#paint');
     var ctx = canvas.getContext('2d');
+    var imageLoader = document.getElementById('imageLoader');
 
     var sketch = document.querySelector('#sketch');
     var sketch_style = getComputedStyle(sketch);
     canvas.width = parseInt(sketch_style.getPropertyValue('width'));
     canvas.height = parseInt(sketch_style.getPropertyValue('height'));
-
-
 
     var mouse = {x: 0, y: 0};
 
@@ -51,10 +51,6 @@ $(document).ready(function() {
             case 'cercle' :
                 draw_cercle();
                 break;
-
-            // case 'erase' :
-            //     eraser();
-            //     break;
         }
     }
 
@@ -80,6 +76,19 @@ $(document).ready(function() {
 
     $('#mycheckbox').change(function(){
         checkbox = document.getElementById('mycheckbox');
+    });
+
+    $('#symetric').change(function(){
+        symetric = document.getElementById('symetric');
+        if (symetric.checked)
+        {
+            $('#sketch').after("<div id='sketch_2'><canvas id='paint_2'></canvas></div>");
+            var canvas_2 = $('#sketch_2');
+            $(canvas_2).css('border', '1px solid gray');
+            $(canvas_2).css('height', '770px');
+            $(canvas_2).css('width', '100%');
+            $(canvas_2).css('margin-top', '20px');
+        }
     });
 
     canvas.addEventListener('mousedown', function() {
@@ -210,10 +219,7 @@ $(document).ready(function() {
     //     window.location.href=image
     // });
 
-
-    var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
-
 
     function handleImage(e){
         var reader = new FileReader();
