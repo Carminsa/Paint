@@ -85,7 +85,8 @@ $(document).ready(function() {
             $(canvas_2).css('border', '1px solid gray');
             $(canvas_2).css('height', '770px');
             $(canvas_2).css('width', '100%');
-            $(canvas_2).css('margin-top', '20px');
+            $(canvas_2).css('width', '100%');
+            $(canvas_2).css('transform', 'scale(1, -1)');
         }
     });
 
