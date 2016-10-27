@@ -6,8 +6,6 @@ $(document).ready(function() {
     var new_color;
     var symetric = false;
 
-    // var brush_id = document.getElementById('brush');
-    // var row = document.getElementById('row');
     var tool = document.getElementsByClassName('type');
     var color = document.getElementById('color');
 
@@ -91,6 +89,24 @@ $(document).ready(function() {
         }
     });
 
+    function symetric_canvas(oldCanvas) {
+
+        if (!symetric.checked) {
+            return;
+        } else {
+
+            var newCanvas = document.querySelector('#paint_2');
+            var context = newCanvas.getContext('2d');
+
+            newCanvas.width = oldCanvas.width;
+            newCanvas.height = oldCanvas.height;
+
+            context.drawImage(oldCanvas, 0, 0);
+
+            return newCanvas;
+        }
+    }
+
     canvas.addEventListener('mousedown', function() {
         if (type === "brush" || type === "erase") {
             ctx.beginPath();
@@ -110,11 +126,13 @@ $(document).ready(function() {
             ctx.globalCompositeOperation = "source-over";
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
+            symetric_canvas(canvas);
 
-        }else if (type === "erase") {
+        } else if (type === "erase") {
             ctx.globalCompositeOperation = "destination-out";
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
+            symetric_canvas(canvas);
         }
     };
 
@@ -129,6 +147,7 @@ $(document).ready(function() {
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
             ctx.closePath();
+            symetric_canvas(canvas);
         }
     }
 
@@ -156,6 +175,7 @@ $(document).ready(function() {
             }else {
                 ctx.stroke();
                 ctx.closePath();
+                symetric_canvas(canvas);
             }
         }
     }
@@ -184,9 +204,11 @@ $(document).ready(function() {
                 ctx.fill();
                 ctx.stroke();
                 clic = true;
+                symetric_canvas(canvas);
             }else {
                 ctx.stroke();
                 clic = true;
+                symetric_canvas(canvas);
             }
         }
     }
@@ -204,6 +226,7 @@ $(document).ready(function() {
 
     function clear_canvas() {
         ctx.clearRect(0,0, canvas.width, canvas.height);
+        symetric_canvas(canvas);
     }
 
     var button = document.getElementById('btn-download');
