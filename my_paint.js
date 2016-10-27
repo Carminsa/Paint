@@ -5,6 +5,8 @@ $(document).ready(function() {
     var type = "brush";
     var new_color;
     var symetric = false;
+    var style = false;
+
 
     var tool = document.getElementsByClassName('type');
     var color = document.getElementById('color');
@@ -76,19 +78,60 @@ $(document).ready(function() {
         checkbox = document.getElementById('mycheckbox');
     });
 
-    $('#symetric').change(function(){
+    $('#style_symetric').on('change', function(){
+        style = document.getElementById('style_symetric');
+        init_option();
+
+    });
+
+    $('#symetric').change(function (){
         symetric = document.getElementById('symetric');
-        if (symetric.checked)
+        init_option();
+
+    });
+
+    function init_option()
+    {
+        if (symetric.checked && !style.checked)
         {
             $('#sketch').after("<div id='sketch_2'><canvas id='paint_2'></canvas></div>");
             var canvas_2 = $('#sketch_2');
             $(canvas_2).css('border', '1px solid gray');
             $(canvas_2).css('height', '770px');
             $(canvas_2).css('width', '100%');
-            $(canvas_2).css('width', '100%');
             $(canvas_2).css('transform', 'scale(1, -1)');
+
         }
-    });
+
+        else if (symetric.checked && style.checked)
+        {
+            document.getElementById("sketch_2").remove();
+            document.getElementById('all').appendChild(
+                document.getElementById('sketch'),
+                document.getElementById('sketch_2')
+            );
+
+            $(sketch).css('width', '50%');
+            canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+            canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+            $('#sketch').after("<div id='sketch_2'><canvas id='paint_2'></canvas></div>");
+            var canvas_2 = $('#sketch_2');
+            var sketch_2 = $('#paint_2');
+            $(sketch_2).css('height', '770px');
+            $(sketch_2).css('border-left', 'none');
+            $(sketch_2).css('border-top', '1px solid gray');
+            $(sketch_2).css('border-bottom', '1px solid gray');
+            $(sketch_2).css('border-right', '1px solid gray');
+            $(canvas_2).css('transform', 'scale(-1, 1)');
+        }
+
+        if (symetric.checked === false){
+            document.getElementById("sketch_2").remove();
+        }
+
+    }
+
 
     function symetric_canvas(oldCanvas) {
 
@@ -236,12 +279,12 @@ $(document).ready(function() {
         button.href = dataURL;
     });
 
-    // $('#save').click(function(){
-    //     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-    //
-    //
-    //     window.location.href=image
-    // });
+// $('#save').click(function(){
+//     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+//
+//
+//     window.location.href=image
+// });
 
     imageLoader.addEventListener('change', handleImage, false);
 

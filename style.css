@@ -3,11 +3,19 @@ html, body {
     height: 100%;
 }
 
+#all{
+    display: flex;
+}
+
 #sketch {
     border: 1px solid gray;
     height: 770px;
     width: 100%;
     /*position: relative;*/
+}
+
+#paint{
+    /*width: 50%;*/
 }
 
 #tmp_canvas {
@@ -31,7 +39,7 @@ html, body {
     width: 250px;
 }
 #dropdown1{
-    height:150px;
+    height:170px;
     width:200px !important;
 }
 
