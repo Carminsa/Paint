@@ -81,30 +81,31 @@ $(document).ready(function() {
     $('#style_symetric').on('change', function(){
         style = document.getElementById('style_symetric');
         init_option();
-
     });
 
     $('#symetric').change(function (){
         symetric = document.getElementById('symetric');
         init_option();
-
     });
+
+    var bool;
 
     function init_option()
     {
-        if (symetric.checked && !style.checked)
+        if (symetric.checked && !style.checked && !$(bool).hasClass("bool"))
         {
+            console.log(2);
             $('#sketch').after("<div id='sketch_2'><canvas id='paint_2'></canvas></div>");
             var canvas_2 = $('#sketch_2');
             $(canvas_2).css('border', '1px solid gray');
             $(canvas_2).css('height', '770px');
             $(canvas_2).css('width', '100%');
             $(canvas_2).css('transform', 'scale(1, -1)');
-
         }
 
-        else if (symetric.checked && style.checked)
+        if (symetric.checked && style.checked && !$(bool).hasClass("bool") )
         {
+            console.log(1);
             document.getElementById("sketch_2").remove();
             document.getElementById('all').appendChild(
                 document.getElementById('sketch'),
@@ -124,14 +125,48 @@ $(document).ready(function() {
             $(sketch_2).css('border-bottom', '1px solid gray');
             $(sketch_2).css('border-right', '1px solid gray');
             $(canvas_2).css('transform', 'scale(-1, 1)');
+
+            bool = $(canvas_2).addClass('bool');
         }
 
         if (symetric.checked === false){
+            console.log(3);
             document.getElementById("sketch_2").remove();
+
+
+            $("#sketch").insertAfter('#all');
+
+            // document.getElementById('sketch').appendChild(
+            //     document.getElementById('body')
+            // );
+
+        }
+
+        if (symetric.checked && style.checked === false && $(bool).hasClass("bool"))
+        {
+            document.getElementById("sketch_2").remove();
+
+            bool = $(canvas_2).removeClass('bool');
+            $('#all').after("<div id='sketch_2'><canvas id='paint_2'></canvas></div>");
+
+            var canvas_2 = $('#sketch_2');
+
+            $(sketch).css('width', '100%');
+            canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+            canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+
+            // document.getElementById('body').appendChild(
+            //     document.getElementById('sketch')
+            // );
+
+            $(canvas_2).css('border', '1px solid gray');
+            $(canvas_2).css('height', '770px');
+            $(canvas_2).css('width', '100%');
+            $(canvas_2).css('transform', 'scale(1, -1)');
+            console.log('toto');
         }
 
     }
-
 
     function symetric_canvas(oldCanvas) {
 
@@ -235,10 +270,6 @@ $(document).ready(function() {
             axe_y = mouse.y;
         }
         else {
-            // var x = parseInt(axe_x) - parseInt(mouse.x);
-            // var y = parseInt(axe_y) - parseInt(mouse.y);
-            // var rayon = parseInt(x) + parseInt(y);
-            // var racine = Math.abs(rayon);
             var racine = Math.sqrt( (mouse.x -= axe_x) * mouse.x + (mouse.y -= axe_y) * mouse.y );
             ctx.beginPath();
             ctx.arc(axe_x, axe_y, racine , 0, 2 * Math.PI, false);
@@ -258,10 +289,8 @@ $(document).ready(function() {
     }
 
     $("#reset").click(function() {
-        // Clear canvas :
         clear_canvas();
 
-        // Valeurs par défaut :
         $("#largeur_pinceau").attr("value", 5);
         width_brush = 5;
         $("#output").html("5 pixels");
@@ -279,13 +308,6 @@ $(document).ready(function() {
         button.href = dataURL;
     });
 
-// $('#save').click(function(){
-//     var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-//
-//
-//     window.location.href=image
-// });
-
     imageLoader.addEventListener('change', handleImage, false);
 
     function handleImage(e){
@@ -302,8 +324,4 @@ $(document).ready(function() {
         };
         reader.readAsDataURL(e.target.files[0]);
     }
-
-
-
-
 });
