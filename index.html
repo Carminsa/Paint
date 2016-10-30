@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link rel="stylesheet" href="css/materialize.min.css" >
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>My Paint</title>
 </head>
@@ -18,8 +18,8 @@
             <li><i id="rectangle" data-type="rectangle" class="material-icons icons type">aspect_ratio</i></li>
             <li><i id="cercle" data-type="cercle" class="material-icons icons type">track_changes</i></li>
             <li><i id="erase" data-type="erase" class="material-icons icons type">delete</i></li>
-            <input id="color" data-type="color" type="color">
         </ul>
+        <input id="color" data-type="color" type="color">
         <ul id="test" class="right hide-on-med-and-down">
 
             <li><input class="waves-effect waves-light btn" type="reset" id="reset" value="Recommencer"></li>
@@ -65,16 +65,11 @@
 <div id="sketch">
     <canvas id="paint"></canvas>
 </div>
-<a id="downloadLnk" download="YourFileName.png">Download as image</a>
-<a href="http://www.alsacreations.com/css/img/picto-quiz.png"
-   download="Pacman_Kiwi">Télécharger l'image</a>
-<input type="button" id="save" value="Sauvergarder mon image" >
-<a href="#" class="button" id="btn-download" download="sans-titre.png">Download</a>
-<label>Image File:</label><br/>
+<a href="#" class="button" id="btn-download" download="sans-titre.png">Sauvegarder</a>
 <input type="file" id="imageLoader" name="imageLoader"/>
+<script src="js/jquery.js"></script>
+<script src="js/my_paint.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
 </body>
 
-<script src="jquery.js"></script>
-<script src="my_paint.js"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
 </html>
